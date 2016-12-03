@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "jhjtypes.h"
+#include "types.h"
 
 #include "pqueue.h"
 #include "list.h"

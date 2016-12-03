@@ -17,4 +17,4 @@ pqueue.h
 list.cpp			Code for a simple linked list
 list.h			
 
-jhjtypes.h			Data types used are defined here
+types.h			Data types used are defined here

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "jhjtypes.h"
+#include "types.h"
 #include "list.h"
 
 void jhjDBPrint( char *text, long line, char * file );
