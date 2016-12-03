@@ -13,7 +13,7 @@
 // entry in the pqueue depending on whether it is ascending or descending respectively. Finally the bool_t tells you whether
 // the list is sorted ascending or descending...
 											
-void PQueueInitialise( PQUEUE *pq, int32 MaxElements, uint32 MaxRating, bool_t bIsAscending )
+void PQueueInitialise( PQUEUE *pq, int32 MaxElements, real_t MaxRating, bool_t bIsAscending )
 {
 	pq->IsAscendingHeap = bIsAscending;
 	
@@ -39,7 +39,7 @@ void PQueueInitialise( PQUEUE *pq, int32 MaxElements, uint32 MaxRating, bool_t b
 int8 PQueuePush( PQUEUE *pq, void *item,  uint32 (*PGetRating) ( void * ) )
 {
 	uint32 i;
-	uint32 r;
+	real_t r;
 
 	if( PQueueIsFull( pq ) == TRUE )
 	{
@@ -142,7 +142,7 @@ void PQueueFree( PQUEUE *pq )
 
 // remove the first node from the pqueue and provide a pointer to it
 
-void *PQueuePop( PQUEUE *pq, uint32 (*PGetRating) ( void * ) )
+void *PQueuePop( PQUEUE *pq, real_t (*PGetRating) ( void * ) )
 {
 	uint32 i;
 	uint32 child;

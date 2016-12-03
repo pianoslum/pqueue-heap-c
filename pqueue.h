@@ -5,7 +5,7 @@ typedef struct _PQUEUE
 	uint32 MaxSize;
 	uint32 CurrentSize;
 	void **Elements; // pointer to void pointers
-	uint32 MaxRating; // biggest element possible
+	real_t MaxRating; // biggest element possible
 	bool_t IsAscendingHeap; // true if the heap should be sorted with the maximum scoring elements first
 } PQUEUE;
 
@@ -20,13 +20,13 @@ typedef struct _PQUEUE
 #define PQ_LEFT_CHILD_INDEX(i) (i*2)
 #define PQ_RIGHT_CHILD_INDEX(i) ((i*2)+1)
 
-void PQueueInitialise( PQUEUE *pq, int32 MaxElements, uint32 MaxRating, bool_t bIsAscending );
+void PQueueInitialise( PQUEUE *pq, int32 MaxElements, real_t MaxRating, bool_t bIsAscending );
 
 void PQueueFree( PQUEUE *pq );
 
-int8 PQueuePush( PQUEUE *pq, void *item,  uint32 (*PGetRating) ( void * ) );
+int8 PQueuePush( PQUEUE *pq, void *item,  real_t (*PGetRating) ( void * ) );
 
 int32 PQueueIsFull( PQUEUE *pq );
 int32 PQueueIsEmpty( PQUEUE *pq );
 
-void *PQueuePop( PQUEUE *pq, uint32 (*PGetRating) ( void * ) );
+void *PQueuePop( PQUEUE *pq, real_t (*PGetRating) ( void * ) );
