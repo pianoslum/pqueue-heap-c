@@ -6,8 +6,6 @@
 #include "types.h"
 #include "list.h"
 
-void jhjDBPrint( char *text, long line, char * file );
-
 void ListInitialise( LIST *l, void *(* GetNext) ( void * ), void (* SetNext) ( void *, void * ) )
 {
 	l->Head = NULL;
