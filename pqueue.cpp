@@ -10,10 +10,10 @@
 #include "list.h"
 
 // initialise the priority queue with a maximum size of maxelements. maxrating is the highest or lowest value of an
-// entry in the pqueue depending on whether it is ascending or descending respectively. Finally the bool32 tells you whether
+// entry in the pqueue depending on whether it is ascending or descending respectively. Finally the bool_t tells you whether
 // the list is sorted ascending or descending...
 											
-void PQueueInitialise( PQUEUE *pq, int32 MaxElements, uint32 MaxRating, bool32 bIsAscending )
+void PQueueInitialise( PQUEUE *pq, int32 MaxElements, uint32 MaxRating, bool_t bIsAscending )
 {
 	pq->IsAscendingHeap = bIsAscending;
 	
