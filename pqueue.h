@@ -1,3 +1,4 @@
+#pragma once
 // pqueue header
 
 typedef struct _PQUEUE
@@ -24,9 +25,11 @@ void PQueueInitialise( PQUEUE *pq, int32 MaxElements, real_t MaxRating, bool_t b
 
 void PQueueFree( PQUEUE *pq );
 
-int8 PQueuePush( PQUEUE *pq, void *item,  real_t (*PGetRating) ( void * ) );
+bool_t PQueuePush( PQUEUE *pq, void *item,  real_t (*PGetRating) ( void * ) );
 
-int32 PQueueIsFull( PQUEUE *pq );
-int32 PQueueIsEmpty( PQUEUE *pq );
+bool_t PQueueIsFull( PQUEUE *pq );
+bool_t PQueueIsEmpty( PQUEUE *pq );
 
 void *PQueuePop( PQUEUE *pq, real_t (*PGetRating) ( void * ) );
+
+void PQueueUpdateElem( PQUEUE *pq,  void * elem, real_t (*PGetRating) ( void * ));

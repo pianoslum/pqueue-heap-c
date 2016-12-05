@@ -7,7 +7,6 @@
 #include "types.h"
 
 #include "pqueue.h"
-#include "list.h"
 
 // initialise the priority queue with a maximum size of maxelements. maxrating is the highest or lowest value of an
 // entry in the pqueue depending on whether it is ascending or descending respectively. Finally the bool_t tells you whether
@@ -36,7 +35,7 @@ void PQueueInitialise( PQUEUE *pq, int32 MaxElements, real_t MaxRating, bool_t b
 // returns TRUE if succesful, FALSE if fails. (You fail by filling the pqueue.)
 // PGetRating is a function which returns the rating of the item you're adding for sorting purposes
 
-int8 PQueuePush( PQUEUE *pq, void *item,  uint32 (*PGetRating) ( void * ) )
+bool_t PQueuePush( PQUEUE *pq, void *item,  real_t (*PGetRating) ( void * ) )
 {
 	uint32 i;
 	real_t r;
@@ -53,6 +52,8 @@ int8 PQueuePush( PQUEUE *pq, void *item,  uint32 (*PGetRating) ( void * ) )
 
 		// get the rating for this item using the provided rating function
 		r = PGetRating( item );
+
+         // printf ("Push %f\n", r);
 
 		// while the parent of the space we're putting the new node into is worse than
 		// our new node, swap the space with the worse node. We keep doing that until we
@@ -104,7 +105,7 @@ int8 PQueuePush( PQUEUE *pq, void *item,  uint32 (*PGetRating) ( void * ) )
 
 
 // Decide whether or not a Priority Queue is full...
-int32 PQueueIsFull( PQUEUE *pq )
+bool_t PQueueIsFull( PQUEUE *pq )
 {
 
 	// todo assert if size > maxsize
@@ -119,7 +120,7 @@ int32 PQueueIsFull( PQUEUE *pq )
 }
 
 // Decide whether or not a Priority Queue is full...
-int32 PQueueIsEmpty( PQUEUE *pq )
+bool_t PQueueIsEmpty( PQUEUE *pq )
 {
 
 	// todo assert if size > maxsize
@@ -182,6 +183,7 @@ void *PQueuePop( PQUEUE *pq, real_t (*PGetRating) ( void * ) )
 	    	if( PGetRating( pLastElement ) < PGetRating( pq->Elements[ child ] ) )
 	    	{
 	    		pq->Elements[ i ] = pq->Elements[ child ];
+
 	    	}
 	    	else
 	    	{
@@ -218,7 +220,42 @@ void *PQueuePop( PQUEUE *pq, real_t (*PGetRating) ( void * ) )
 
 	pq->Elements[i] = pLastElement;
 
+    // printf ("Pop %f\n", PGetRating(pMaxElement));
     return pMaxElement;
 }
 
+void PQueueUpdateElem( PQUEUE *pq,  void * elem, real_t (*PGetRating) ( void * )) {
+    // find the elem to be updated
+    uint32 idx;
+    for (idx = PQ_FIRST_ENTRY; idx < pq->CurrentSize; idx++) {
+        if (pq->Elements[idx] == elem) {
+            break;
+        }
+    }
+
+    // bubble up 
+    while (idx > PQ_FIRST_ENTRY && PGetRating(&pq->Elements[idx]) < PGetRating(&pq->Elements[PQ_PARENT_INDEX(idx)])) {
+        void * tmp = pq->Elements[idx];
+        pq->Elements[idx] = pq->Elements[PQ_PARENT_INDEX(idx)];
+        pq->Elements[PQ_PARENT_INDEX(idx)] = tmp;
+        idx = PQ_PARENT_INDEX(idx);
+    }
+
+    while (PQ_LEFT_CHILD_INDEX(idx) <= pq->CurrentSize) {
+        // float down
+        uint32 childIdx = PQ_LEFT_CHILD_INDEX(idx); // look for the smaller one
+        if (childIdx + 1 <= pq->CurrentSize && PGetRating(pq->Elements[childIdx + 1]) < PGetRating(pq->Elements[childIdx])) {
+            childIdx++;
+        }
+
+        if (PGetRating(pq->Elements[idx]) > PGetRating(pq->Elements[childIdx])) {
+            void * tmp = pq->Elements[idx];
+            pq->Elements[idx] = pq->Elements[childIdx];
+            pq->Elements[childIdx] = tmp;
+            idx = childIdx;
+        } else {
+            break;
+        }
+    }
+}
 
